@@ -11,7 +11,6 @@ import (
 const port = 8080
 
 type application struct {
-	// data storen name
 	DSN    string
 	Domain string
 	DB     *sql.DB
@@ -29,6 +28,7 @@ func main() {
 		log.Fatal(err)
 	}
 	app.DB = connection
+	defer app.DB.Close()
 
 	app.Domain = "example.com"
 
