@@ -4,25 +4,33 @@ import { iMovie } from "../types"
 
 const Movies = () => {
   const [movies, setMovies] = useState<iMovie[]>([])
+  const [error, setError] = useState<unknown>(null)
 
   useEffect(() => {
-    const headers = new Headers()
-    headers.append("Content-Type", "application/json")
+    const fetchMovies = async () => {
+      const headers = new Headers()
+      headers.append("Content-Type", "application/json")
 
-    const requestOptions = {
-      method: "GET",
-      headers,
-    }
+      const requestOptions = {
+        method: "GET",
+        headers,
+      }
 
-    fetch(`http://localhost:8080/movies`, requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
+      try {
+        const response = await fetch("http://localhost:8080/movies", requestOptions)
+        const data = await response.json()
         setMovies(data)
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err)
-      })
+        setError(err)
+      }
+    }
+    fetchMovies()
   }, [])
+
+  useEffect(() => {
+    if (error) alert(error)
+  }, [error])
 
   return (
     <div>
