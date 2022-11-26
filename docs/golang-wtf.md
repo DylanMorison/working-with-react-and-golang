@@ -14,8 +14,8 @@ So does this mean that?
 
 - Every function we ever write has to be rewritten to accomodate different types even if the logic in it is identical?
 
-```go 
-// if there is any other type within this 
+```go
+// if there is any other type within this
 // program that has a function called getGreeting()
 // that returns a string, that type is a member of type bot
 type bot interface {
@@ -42,11 +42,10 @@ func (englishBot) getGreeting() string {
 	// very custom logic for generating an English greeting
 	return "Hi There!"
 }
- 
+
 // getGreeting is associated with spanishBot
 func (spanishBot) getGreeting() string {
 	// very custom logic for generating Spanish greeting
 	return "Hola!"
 }
-
 ```
