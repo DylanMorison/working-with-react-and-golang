@@ -1,11 +1,12 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
+	"github.com/DylanMorison/working-with-react-and-golang/cmd/internal/repository"
+	"github.com/DylanMorison/working-with-react-and-golang/cmd/internal/repository/dbrepo"
 )
 
 const port = 8080
@@ -13,7 +14,7 @@ const port = 8080
 type application struct {
 	DSN    string
 	Domain string
-	DB     *sql.DB
+	DB     repository.DatabaseRepo
 }
 
 func main() {
@@ -27,8 +28,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app.DB = connection
-	defer app.DB.Close()
+	app.DB = &dbrepo.PostgresDBRepo{DB: connection}
+	defer app.DB.Connection().Close()
 
 	app.Domain = "example.com"
 
